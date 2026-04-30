@@ -1,52 +1,49 @@
 #include "Header.h"
-
-set<string> getUniqueAuthors(const string& filename) {
+vector<User> readUsers(const string& filename) {
     ifstream file(filename);
 
     if (!file.is_open()) {
         throw FileNotFoundException(filename);
     }
 
-    set<string> unique_authors;
+    vector<User> users;
     string line;
-    int lineNumber = 0;
 
     while (getline(file, line)) {
-        lineNumber++;
-        if (line.empty()) continue;
+        if (line.empty()) continue; 
 
-        try {
-            stringstream ss(line);
-            string title, author, year, isbn;
+        stringstream ss(line);
+        string id_str, name, email;
 
-            if (getline(ss, title, ',') &&
-                getline(ss, author, ',') &&
-                getline(ss, year, ',') &&
-                getline(ss, isbn, ',')) {
+        getline(ss, id_str, ',');
+        getline(ss, name, ',');
+        getline(ss, email, ',');
 
-                if (author != "author" && author != "Author") {
-                    unique_authors.insert(author);
-                }
-            }
-            else {
-                // якщо колонок менше
-                throw RowFormatException(line);
-            }
-        }
-        catch (const RowFormatException& e) {
-            cerr << "Warning at line " << lineNumber << " -> " << e.what() << endl;
-        }
+        if (id_str == "id" || id_str == "ID") continue;
+
+        User u;
+        u.id = stoi(id_str); 
+        u.name = name;
+        u.email = email;
+
+        users.push_back(u); 
     }
 
     file.close();
-    return unique_authors;
+    return users;
 }
 
-void saveAuthorsToJson(const set<string>& authors, const string& out_filename) {
-    json j_array = json::array();
+void saveUsersToJson(const vector<User>& users, const string& out_filename) {
+    json j_array = json::array(); // —творюЇмо порожн≥й масив JSON
 
-    for (set<string>::const_iterator it = authors.begin(); it != authors.end(); ++it) {
-        j_array.push_back(*it);
+    
+    for (int i = 0; i < users.size(); i++) {
+        json j_user; 
+        j_user["id"] = users[i].id;
+        j_user["name"] = users[i].name;
+        j_user["email"] = users[i].email;
+
+        j_array.push_back(j_user); 
     }
 
     ofstream file(out_filename);
@@ -55,6 +52,6 @@ void saveAuthorsToJson(const set<string>& authors, const string& out_filename) {
         file.close();
     }
     else {
-        cerr << "Error: Could not open file for writing!" << endl;
+        cout << "Error: Cannot open file for writing." << endl;
     }
 }

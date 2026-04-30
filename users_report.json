@@ -1,0 +1,42 @@
+[
+    {
+        "email": "oleg@mail.com",
+        "id": 1,
+        "name": "Oleg"
+    },
+    {
+        "email": "anna@mail.com",
+        "id": 2,
+        "name": "Anna"
+    },
+    {
+        "email": "ivan@mail.com",
+        "id": 3,
+        "name": "Ivan"
+    },
+    {
+        "email": "maria@mail.com",
+        "id": 4,
+        "name": "Maria"
+    },
+    {
+        "email": "petro@mail.com",
+        "id": 5,
+        "name": "Petro"
+    },
+    {
+        "email": "olena@mail.com",
+        "id": 6,
+        "name": "Olena"
+    },
+    {
+        "email": "max@mail.com",
+        "id": 7,
+        "name": "Max"
+    },
+    {
+        "email": "katya@mail.com",
+        "id": 8,
+        "name": "Kateryna"
+    }
+]

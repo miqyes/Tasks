@@ -2,7 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include <set>
+#include <vector>
 #include <string>
 #include <exception>
 #include <nlohmann/json.hpp>
@@ -13,17 +13,19 @@ using json = nlohmann::json;
 class FileNotFoundException : public exception {
     string msg;
 public:
-    FileNotFoundException(const string& file) : msg("File not found: " + file) {}
-    const char* what() const noexcept override { return msg.c_str(); }
+    FileNotFoundException(const string& file) {
+        msg = "File not found: " + file;
+    }
+    const char* what() const noexcept override {
+        return msg.c_str();
+    }
 };
 
-class RowFormatException : public exception {
-    string msg;
-public:
-    RowFormatException(const string& row) : msg("Invalid row format: " + row) {}
-    const char* what() const noexcept override { return msg.c_str(); }
+struct User {
+    int id;
+    string name;
+    string email;
 };
 
-// Ôóíêö³¿
-set<string> getUniqueAuthors(const string& filename);
-void saveAuthorsToJson(const set<string>& authors, const string& out_filename);
+vector<User> readUsers(const string& filename);
+void saveUsersToJson(const vector<User>& users, const string& out_filename);
